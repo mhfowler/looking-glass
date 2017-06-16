@@ -1,7 +1,7 @@
 #include "ofMain.h"
-#include "appData.h"
+#include "sun.h"
 
-class  sun {
+class  zSun {
 public:
     void draw();
     
@@ -11,10 +11,14 @@ public:
     float startX = 100;
     float startY = 100;
     float tStart;
+    int whichMirror;
+    ofPoint mirrorCenter;
     
     ofVec2f tri1;
     ofVec2f tri2;
     ofVec2f tri3;
+    
+    ofColor col;
 };
 
 

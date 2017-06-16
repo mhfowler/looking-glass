@@ -22,10 +22,18 @@ void ofApp::setup(){
     img2.load("/Users/maxfowler/Desktop/unbroken/img/trees.jpg");
     img3.load("/Users/maxfowler/Desktop/unbroken/img/mapping.jpg");
     
-//    loadLines("/Users/maxfowler/Desktop/unbroken/lines/mLines-jun12.txt", &mirrorLines);
-    loadLines("/Users/maxfowler/Desktop/unbroken/lines/mLines-jun14.txt", &mirrorLines);
-    loadPoints("/Users/maxfowler/Desktop/unbroken/lines/centers-jun14.txt", &mirrorCenters);
+    mPlayer.load("/Users/maxfowler/Desktop/unbroken/img/sky.mov");
+//    mPlayer.play();
     
+//    loadLines("/Users/maxfowler/Desktop/unbroken/lines/mLines-jun12.txt", &a.mirrorLines);
+//    loadLines("/Users/maxfowler/Desktop/unbroken/lines/mLines-jun14-evening.txt", &a.mirrorLines);
+    loadLines("/Users/maxfowler/Desktop/unbroken/lines/mLines-jun15-night.txt", &a.mirrorLines);
+     loadLines("/Users/maxfowler/Desktop/unbroken/lines/rLines.txt", &a.rLines);
+//    loadLines("/Users/maxfowler/Desktop/unbroken/lines/straightLines-jun14.txt", &a.mirrorLines);
+    loadPoints("/Users/maxfowler/Desktop/unbroken/lines/centers-jun15.txt", &a.mirrorCenters);
+//    loadPoints("/Users/maxfowler/Desktop/unbroken/lines/straightCenters-jun14.txt", &a.mirrorCenters);
+    
+    ofHideCursor();
 }
 
 //--------------------------------------------------------------
@@ -60,6 +68,18 @@ void ofApp::draw(){
         drawTestT();
     } else if (currentAnimation == 'y') {
         drawTestY();
+    } else if (currentAnimation == 'z') {
+        drawTestZ();
+    } else if (currentAnimation == 'x') {
+        drawTestX();
+    } else if (currentAnimation == 'p') {
+        drawTestP();
+    } else if (currentAnimation == 'i') {
+        drawTestI();
+    } else if (currentAnimation == 'h') {
+        drawTestH();
+    } else if (currentAnimation == 'b') {
+        drawTestB();
     }
     
     mainOutputSyphonServer.publishScreen();
@@ -136,6 +156,10 @@ void ofApp::update(){
         m.setAddress(oscAddress);
         m.addBoolArg(true);
         sender.sendMessage(m, false);
+    }
+    
+    if (currentAnimation == 'p') {
+        mPlayer.update();
     }
 }
 
@@ -231,10 +255,10 @@ void ofApp::drawTest3(){
     float tDelta = ofMap(fmod(time, 30), 0, 30, 235, 0);
     for (int i = 0; i < numLines; i++) {
         float k = i*10 + tDelta;
-        float x1 = centerPoint.x - k;
-        float x2 = centerPoint.x + k;
-        float y1 = centerPoint.y - k;
-        float y2 = centerPoint.y + k;
+        float x1 = a.centerPoint.x - k;
+        float x2 = a.centerPoint.x + k;
+        float y1 = a.centerPoint.y - k;
+        float y2 = a.centerPoint.y + k;
         ofDrawLine(x1, y1, x1, y2);
         ofDrawLine(x1, y2, x2, y2);
         ofDrawLine(x2, y2, x2, y1);
@@ -266,13 +290,13 @@ void ofApp::drawTest4(){
     /******************* drawing lines with open frameworks */
     ofSetColor(255, 255, 255);
     ofPolyline mLine;
-    for(int i = 0; i < mirrorLines.size(); i++){
-        mLine = mirrorLines[i];
+    for(int i = 0; i < a.mirrorLines.size(); i++){
+        mLine = a.mirrorLines[i];
         mLine.draw();
     }
     ofPoint mPoint;
-    for(int i = 0; i < mirrorPoints.size(); i++){
-        mPoint = mirrorPoints[i];
+    for(int i = 0; i < a.mirrorPoints.size(); i++){
+        mPoint = a.mirrorPoints[i];
         ofDrawCircle(mPoint.x, mPoint.y, 10);
     }
 }
@@ -297,8 +321,8 @@ void ofApp::drawTest5(){
     int numDirections = 30;
     for (int r = 0; r < numDirections; r++) {
         float degs = 2*PI / r;
-        for(int i = 0; i < mirrorLines.size(); i++){
-            mLine = mirrorLines[i];
+        for(int i = 0; i < a.mirrorLines.size(); i++){
+            mLine = a.mirrorLines[i];
             mLine.draw();
             
             /* sin spacing */
@@ -332,21 +356,24 @@ void ofApp::drawTest5(){
 //            cout << "alpha: " << alpha << endl;
 //            spacing = ofMap(xFactor, 0, w, 0, 40);
 //            cout << "spacing: " << spacing << endl;
-            if (t5 < 35) {
-                spacing = ofMap(t5, 0, 35, 40, 0.001);
+            if (t5 < 30) {
+                spacing = ofMap(t5, 0, 30, 30, 0.001);
             }
             else if (t5 < 50) {
-                spacing = ofMap(t5, 35, 50, 0.001, 0.05);
+                spacing = ofMap(t5, 30, 50, 0.001, 0.05);
+            }
+            else if (t5 < 60) {
+                spacing = ofMap(t5, 50, 60, 0.05, 0.2);
             }
             else if (t5 < 80) {
-                spacing = ofMap(t5, 50, 80, 0.05, 0.2);
+                spacing = ofMap(t5, 60, 80, 0.2, 5);
             }
-            else if (t5 < 120) {
-                spacing = ofMap(t5, 80, 120, 0.2, 5);
+            else if (t5 < 100) {
+                spacing = ofMap(t5, 80, 100, 5, 6);
+                alpha = ofMap(t5, 80, 100, baseAlpha, 0);
             }
-            else if (t5 < 150) {
-                spacing = ofMap(t5, 120, 150, 5, 6);
-                alpha = ofMap(t5, 120, 150, baseAlpha, 0);
+            else if (t5 < 110) {
+                alpha = 0;
             }
             else {
                 tStart = time;
@@ -373,8 +400,8 @@ void ofApp::drawTest5(){
     
     ofSetColor(255, 255, 255, 255);
     ofPolyline dLine;
-    for (int i = 0; i < mirrorLines.size(); i++) {
-        dLine = mirrorLines[i];
+    for (int i = 0; i < a.mirrorLines.size(); i++) {
+        dLine = a.mirrorLines[i];
         dLine.draw();
     }
 }
@@ -405,8 +432,8 @@ void ofApp::drawTest6(){
     int numDirections = 30;
     for (int r = 0; r < numDirections; r++) {
         float degs = 2*PI / r;
-        for(int i = 0; i < mirrorLines.size(); i++){
-            mLine = mirrorLines[i];
+        for(int i = 0; i < a.mirrorLines.size(); i++){
+            mLine = a.mirrorLines[i];
             mLine.draw();
             float spacing = ofMap(sin(time/2.0), -1, 1, 0, 20, 0);
             mPoints = mLine.getVertices();
@@ -425,8 +452,8 @@ void ofApp::drawTest6(){
     }
     
     ofPoint mPoint;
-    for(int i = 0; i < mirrorPoints.size(); i++){
-        mPoint = mirrorPoints[i];
+    for(int i = 0; i < a.mirrorPoints.size(); i++){
+        mPoint = a.mirrorPoints[i];
         ofDrawCircle(mPoint.x, mPoint.y, 10);
     }
 }
@@ -456,12 +483,12 @@ void ofApp::drawTest7(){
 //    int numLines = 10;
     ofSeedRandom(12121);
     int numLines = ofMap(sin(time/10.0), -1, 1, 0, 20, 0);
-    int numMirrors = mirrorLines.size();
+    int numMirrors = a.mirrorLines.size();
         for(int i = 0; i < numLines; i++){
             int startIndex = ofRandom(0, numMirrors);
             int endIndex = ofRandom(0, numMirrors);
-            ofPolyline startMirror = mirrorLines[startIndex];
-            ofPolyline endMirror = mirrorLines[endIndex];
+            ofPolyline startMirror = a.mirrorLines[startIndex];
+            ofPolyline endMirror = a.mirrorLines[endIndex];
             int startPointIndex = ofRandom(0, startMirror.size());
             int endPointIndex = ofRandom(0, endMirror.size());
             ofPoint startPoint = startMirror.getVertices()[startPointIndex];
@@ -482,7 +509,6 @@ void ofApp::drawTest8(){
     ofSetColor(255);
     ofSetLineWidth(1);
     
-    
     /******************* drawing lines with open frameworks */
     ofPolyline mLine;
     ofPoint transformedPoint;
@@ -494,6 +520,7 @@ void ofApp::drawTest8(){
     ofSeedRandom(133314);
 //    int numLines = ofMap(sin(time/5.0), -1, 1, 0, 10000, 0);
     
+    bool addSuns = false;
     float linePercent = 0;
     float alphaPercent = 0.2;
     if (t8 < 10) {
@@ -504,43 +531,72 @@ void ofApp::drawTest8(){
         linePercent = 1;
         alphaPercent = 0.8;
     }
+//    else if (t8 < 30) {
+//        linePercent = ofMap(t8, 20, 30, 1, 0);
+//        alphaPercent = 0.8;
+//    }
     else if (t8 < 30) {
-        linePercent = ofMap(t8, 20, 30, 1, 0);
-        alphaPercent = 0.8;
+        linePercent = 1;
+        alphaPercent = ofMap(t8, 20, 25, 0.8, 0);
+        addSuns = true;
+    }
+    else if (t8 < 50) {
+        linePercent = 1;
+        alphaPercent = 0;
     }
     else {
         tStart = time;
-        currentAnimation = 't';
-        nextAnimation = '5';
-        cout << "++ transitioning to animation to t then 5" << endl;
+        currentAnimation = '5';
+        cout << "++ transitioning to animation 5" << endl;
+        switchRLine();
     }
     float alpha = 200 * alphaPercent;
     
     int numLines = 1000;
-    int numMirrors = mirrorLines.size();
+    int numMirrors = a.mirrorLines.size();
     ofSetColor(255, 255, 255, alpha);
     for(int i = 0; i < numLines; i++){
         int startIndex = ofRandom(0, numMirrors);
         int endIndex = ofRandom(0, numMirrors);
-        ofPolyline startMirror = mirrorLines[startIndex];
+        ofPolyline startMirror = a.mirrorLines[startIndex];
         int startPointIndex = ofRandom(0, startMirror.size());
         ofPoint startPoint = startMirror.getVertices()[startPointIndex];
-        ofVec2f lVec = ofVec2f(startPoint - centerPoint);
+        ofVec2f lVec = ofVec2f(startPoint - a.centerPoint);
         float fullLength = lVec.length();
         float tLength = ofMap(linePercent, 0, 1, 0, fullLength);
         ofVec2f tVec = lVec.scale(tLength);
-        ofPoint tPoint = ofPoint(centerPoint + tVec);
+        ofPoint tPoint = ofPoint(a.centerPoint + tVec);
         ofPolyline l;
-        l.addVertex(centerPoint);
+        l.addVertex(a.centerPoint);
         l.addVertex(tPoint);
         l.draw();
     }
     
+    
+    // xsuns dropping off
     ofSetColor(255, 255, 255, 255);
     ofPolyline dLine;
-    for (int i = 0; i < mirrorLines.size(); i++) {
-        dLine = mirrorLines[i];
+    for (int i = 0; i < a.mirrorLines.size(); i++) {
+        dLine = a.mirrorLines[i];
         dLine.draw();
+    }
+    
+    if (addSuns) {
+        for (int i = 0; i < a.mirrorLines.size(); i++) {
+            xSun s;
+            s.init(&a, 0, 0, i);
+            xSuns.push_back(s);
+        }
+        
+        while (xSuns.size() > 5000) {
+            xSuns.erase(xSuns.begin());
+        }
+    }
+    
+    xSun s;
+    for(int j = 0; j < xSuns.size(); j++) {
+        s = xSuns[j];
+        s.draw();
     }
 }
 
@@ -550,17 +606,143 @@ void ofApp::drawTestY(){
     ofSetColor(255);
     ofSetLineWidth(1);
     
-    sun sun1;
-    sun1.init(200, 200);
     
-    sun sun2;
-    sun2.init(500, 500);
+//    // code for growing lines
+//    float t8 = time - tStart;
+//    float linePercent = 0;
+//    float alphaPercent = 0.2;
+//    if (t8 < 10) {
+//        linePercent = ofMap(t8, 0, 10, 0, 1);
+//        alphaPercent = ofMap(t8, 0, 10, 0.2, 0.8);
+//    }
+//    else if (t8 < 20) {
+//        linePercent = 1;
+//        alphaPercent = 0.8;
+//    }
+//    else {
+//        linePercent = 1;
+//    }
+//    float alpha = 200 * alphaPercent;
+//    int numLines = 1000;
+//    int numMirrors = a.mirrorLines.size();
+//    ofSetColor(255, 255, 255, alpha);
+//    for(int i = 0; i < numLines; i++){
+//        int startIndex = ofRandom(0, numMirrors);
+//        int endIndex = ofRandom(0, numMirrors);
+//        ofPolyline startMirror = a.mirrorLines[startIndex];
+//        int startPointIndex = ofRandom(0, startMirror.size());
+//        ofPoint startPoint = startMirror.getVertices()[startPointIndex];
+//        ofVec2f lVec = ofVec2f(startPoint - a.centerPoint);
+//        float fullLength = lVec.length();
+//        float tLength = ofMap(linePercent, 0, 1, 0, fullLength);
+//        ofVec2f tVec = lVec.scale(tLength);
+//        ofPoint tPoint = ofPoint(a.centerPoint + tVec);
+//        ofPolyline l;
+//        l.addVertex(a.centerPoint);
+//        l.addVertex(tPoint);
+//        l.draw();
+//    }
     
+    // code for suns
+    float k = ofRandom(0, 100);
+    if (k > 20 && suns.size() < 2000) {
+        sun s;
+        float x = ofRandom(0, w);
+        float y = ofRandom(0, h);
+        s.init(&a, x, y);
+        suns.push_back(s);
+    }
     
-    sun1.draw();
-    sun2.draw();
+    sun s;
+    for(int j = 0; j < suns.size(); j++) {
+        s = suns[j];
+        s.draw();
+    }
+    
+    ofSetColor(0, 0, 255);
+//    ofDrawCircle(a.centerPoint.x, a.centerPoint.y, 10);
+    
+    ofSetColor(255, 255, 255, 255);
+    ofPolyline dLine;
+    for (int i = 0; i < a.mirrorLines.size(); i++) {
+        dLine = a.mirrorLines[i];
+        dLine.draw();
+    }
     
 }
+
+
+//--------------------------------------------------------------
+void ofApp::drawTestZ(){
+    ofBackground(0, 0, 0);
+    ofSetColor(255);
+    ofSetLineWidth(1);
+    
+    // code for suns
+    float k = ofRandom(0, 100);
+    if (k > 80 && zSuns.size() < 1000) {
+        zSun s;
+        float x = ofRandom(0, w);
+        float y = ofRandom(0, h);
+        s.init(&a, x, y);
+        zSuns.push_back(s);
+    }
+    
+    zSun s;
+    for(int j = 0; j < zSuns.size(); j++) {
+        s = zSuns[j];
+        s.draw();
+    }
+    
+    ofSetColor(0, 0, 255);
+    //    ofDrawCircle(a.centerPoint.x, a.centerPoint.y, 10);
+    
+    ofSetColor(111, 28, 178, 255);
+    ofPolyline dLine;
+    for (int i = 0; i < a.mirrorLines.size(); i++) {
+        dLine = a.mirrorLines[i];
+        dLine.draw();
+    }
+    
+}
+
+
+//--------------------------------------------------------------
+void ofApp::drawTestX(){
+    ofBackground(0, 0, 0);
+    ofSetColor(255);
+    ofSetLineWidth(1);
+    
+    // code for suns
+    float k = ofRandom(0, 100);
+    for (int i = 0; i < a.mirrorLines.size(); i++) {
+        xSun s;
+        s.init(&a, 0, 0, i);
+        xSuns.push_back(s);
+    }
+    
+    while (xSuns.size() > 5000) {
+        xSuns.erase(xSuns.begin());
+    }
+    
+    xSun s;
+    for(int j = 0; j < xSuns.size(); j++) {
+        s = xSuns[j];
+        s.draw();
+    }
+    
+    ofSetColor(0, 0, 255);
+    //    ofDrawCircle(a.centerPoint.x, a.centerPoint.y, 10);
+    
+    ofSetColor(111, 28, 178, 255);
+    ofPolyline dLine;
+    for (int i = 0; i < a.mirrorLines.size(); i++) {
+        dLine = a.mirrorLines[i];
+        dLine.draw();
+    }
+    
+}
+
 
 //--------------------------------------------------------------
 void ofApp::drawTest0(){
@@ -583,17 +765,17 @@ void ofApp::drawTest0(){
 //    int numLines = 1000;
     int numLines = ofMap(52, 0, w, 0, 1000);
     int radius = ofMap(859, 0, h, 0, 800);
-    int numMirrors = mirrorLines.size();
+    int numMirrors = a.mirrorLines.size();
     float deltaX = ofMap(cos(time/2.0), -1, 1, -radius, radius, 0);
     float deltaY = ofMap(sin(time/2.0), -1, 1, -radius, radius, 0);
     int numFocii = 3;
     for(int j = 0; j < numFocii; j++){
-        ofPoint focii = ofPoint(centerPoint.x + ofRandom(-500, 500), centerPoint.y + ofRandom(-500, 500));
+        ofPoint focii = ofPoint(a.centerPoint.x + ofRandom(-500, 500), a.centerPoint.y + ofRandom(-500, 500));
         ofPoint transformedCenterPoint = ofPoint(focii.x + deltaX, focii.y + deltaY);
         for(int i = 0; i < numLines; i++){
             int startIndex = ofRandom(0, numMirrors);
             int endIndex = ofRandom(0, numMirrors);
-            ofPolyline startMirror = mirrorLines[startIndex];
+            ofPolyline startMirror = a.mirrorLines[startIndex];
             int startPointIndex = ofRandom(0, startMirror.size());
             ofPoint startPoint = startMirror.getVertices()[startPointIndex];
             ofPolyline l;
@@ -623,24 +805,24 @@ void ofApp::drawTestW(){
     ofSeedRandom(133314);
     //    int numLines = ofMap(sin(time/5.0), -1, 1, 0, 10000, 0);
     int numLines = 1000;
-    int numMirrors = mirrorLines.size();
+    int numMirrors = a.mirrorLines.size();
 //    for(int i = 0; i < numLines; i++){
 //        int startIndex = ofRandom(0, numMirrors);
 //        int endIndex = ofRandom(0, numMirrors);
-//        ofPolyline startMirror = mirrorLines[startIndex];
+//        ofPolyline startMirror = a.mirrorLines[startIndex];
 //        int startPointIndex = ofRandom(0, startMirror.size());
 //        ofPoint startPoint = startMirror.getVertices()[startPointIndex];
 //        ofPolyline l;
-//        l.addVertex(centerPoint);
+//        l.addVertex(a.centerPoint);
 //        l.addVertex(startPoint);
 //        l.draw();
 //    }
     
     for(int i = 0; i < numMirrors; i++) {
-        ofPolyline cMirror = mirrorLines[i];
-        ofPoint mirrorCenter = mirrorCenters[i];
+        ofPolyline cMirror = a.mirrorLines[i];
+        ofPoint mirrorCenter = a.mirrorCenters[i];
         ofPolyline l;
-        l.addVertex(centerPoint);
+        l.addVertex(a.centerPoint);
         l.addVertex(mirrorCenter);
         l.draw();
     }
@@ -650,11 +832,11 @@ void ofApp::drawTestW(){
         float spacing = ofMap(sin(time/1.5), -1, 1, 0, 0.35, 0);
         float scale = 1 + k * spacing;
         for(int i = 0; i < numMirrors; i++) {
-            ofPolyline cMirror = mirrorLines[i];
+            ofPolyline cMirror = a.mirrorLines[i];
             vector<ofPoint> mPoints = cMirror.getVertices();
-            ofPoint mirrorCenter = mirrorCenters[i];
+            ofPoint mirrorCenter = a.mirrorCenters[i];
 //            ofPoint startPoint = mPoints[0];
-            ofVec2f radius = mirrorCenter - centerPoint;
+            ofVec2f radius = mirrorCenter - a.centerPoint;
             ofVec2f eRadius = radius * scale;
             ofVec2f eDelta = eRadius - radius;
             ofPolyline nLine;
@@ -687,24 +869,24 @@ void ofApp::drawTestE(){
     ofSeedRandom(133314);
     //    int numLines = ofMap(sin(time/5.0), -1, 1, 0, 10000, 0);
     int numLines = 1000;
-    int numMirrors = mirrorLines.size();
+    int numMirrors = a.mirrorLines.size();
     //    for(int i = 0; i < numLines; i++){
     //        int startIndex = ofRandom(0, numMirrors);
     //        int endIndex = ofRandom(0, numMirrors);
-    //        ofPolyline startMirror = mirrorLines[startIndex];
+    //        ofPolyline startMirror = a.mirrorLines[startIndex];
     //        int startPointIndex = ofRandom(0, startMirror.size());
     //        ofPoint startPoint = startMirror.getVertices()[startPointIndex];
     //        ofPolyline l;
-    //        l.addVertex(centerPoint);
+    //        l.addVertex(a.centerPoint);
     //        l.addVertex(startPoint);
     //        l.draw();
     //    }
     
     for(int i = 0; i < numMirrors; i++) {
-        ofPolyline cMirror = mirrorLines[i];
-        ofPoint mirrorCenter = mirrorCenters[i];
+        ofPolyline cMirror = a.mirrorLines[i];
+        ofPoint mirrorCenter = a.mirrorCenters[i];
         ofPolyline l;
-        l.addVertex(centerPoint);
+        l.addVertex(a.centerPoint);
         l.addVertex(mirrorCenter);
         l.draw();
     }
@@ -714,11 +896,11 @@ void ofApp::drawTestE(){
         float spacing = ofMap(sin(time/1.5), -1, 1, 0, 0.35, 0);
         float scale = 1 + k * spacing;
         for(int i = 0; i < numMirrors; i++) {
-            ofPolyline cMirror = mirrorLines[i];
+            ofPolyline cMirror = a.mirrorLines[i];
             vector<ofPoint> mPoints = cMirror.getVertices();
-            ofPoint mirrorCenter = mirrorCenters[i];
+            ofPoint mirrorCenter = a.mirrorCenters[i];
             //            ofPoint startPoint = mPoints[0];
-            ofVec2f radius = mirrorCenter - centerPoint;
+            ofVec2f radius = mirrorCenter - a.centerPoint;
             ofVec2f eRadius = radius * scale;
             ofVec2f eDelta = eRadius - radius;
             ofPolyline nLine;
@@ -754,19 +936,19 @@ void ofApp::drawTestNames(){
     /******************* drawing lines with open frameworks */
     ofSetColor(255, 255, 255);
     ofPolyline mLine;
-    for(int i = 0; i < mirrorLines.size(); i++){
-        mLine = mirrorLines[i];
+    for(int i = 0; i < a.mirrorLines.size(); i++){
+        mLine = a.mirrorLines[i];
         mLine.draw();
     }
     ofPoint mPoint;
-    for(int i = 0; i < mirrorPoints.size(); i++){
-        mPoint = mirrorPoints[i];
+    for(int i = 0; i < a.mirrorPoints.size(); i++){
+        mPoint = a.mirrorPoints[i];
         ofDrawCircle(mPoint.x, mPoint.y, 10);
     }
     
-    int numMirrors = mirrorLines.size();
+    int numMirrors = a.mirrorLines.size();
     for(int i = 0; i < numMirrors; i++) {
-        ofPolyline cMirror = mirrorLines[i];
+        ofPolyline cMirror = a.mirrorLines[i];
         ofPoint cPoint = cMirror.getVertices()[0];
         ofSetColor(255, 0, 0);
         ofDrawCircle(cPoint.x, cPoint.y, 10);
@@ -774,10 +956,60 @@ void ofApp::drawTestNames(){
         ofDrawBitmapString(std::to_string(i), cPoint.x + 5, cPoint.y + 5);
     }
     
-    for(int i = 0; i < mirrorCenters.size(); i++){
-        mPoint = mirrorCenters[i];
+    for(int i = 0; i < a.mirrorCenters.size(); i++){
+        mPoint = a.mirrorCenters[i];
         ofDrawCircle(mPoint.x, mPoint.y, 10);
     }
+}
+
+
+//--------------------------------------------------------------
+void ofApp::drawTestP(){
+    ofBackground(0, 0, 0);
+    ofSetColor(255);
+    ofSetLineWidth(1);
+    
+    float x1 = w/3;
+    float x2 = 2*w/3;
+    float y1 = h/3;
+    float y2 = 2*h/3;
+    
+    ofDrawLine(x1, y1, x1, y2);
+    ofDrawLine(x1, y2, x2, y2);
+    ofDrawLine(x2, y2, x2, y1);
+    ofDrawLine(x2, y1, x1, y1);
+    
+    ofDrawCircle(cursor.x, cursor.y, 10);
+    
+    /******************* drawing lines with open frameworks */
+    ofSetColor(255, 255, 255);
+    ofPolyline mLine;
+    for(int i = 0; i < a.mirrorLines.size(); i++){
+        mLine = a.mirrorLines[i];
+        mLine.draw();
+    }
+    ofPoint mPoint;
+    for(int i = 0; i < a.mirrorPoints.size(); i++){
+        mPoint = a.mirrorPoints[i];
+        ofDrawCircle(mPoint.x, mPoint.y, 10);
+    }
+    
+    int numMirrors = a.mirrorLines.size();
+    for(int i = 0; i < numMirrors; i++) {
+        ofPolyline cMirror = a.mirrorLines[i];
+        ofPoint cPoint = cMirror.getVertices()[0];
+        ofSetColor(255, 0, 0);
+        ofDrawCircle(cPoint.x, cPoint.y, 10);
+        ofSetColor(255, 255, 255);
+        ofDrawBitmapString(std::to_string(i), cPoint.x + 5, cPoint.y + 5);
+    }
+    
+    for(int i = 0; i < a.mirrorCenters.size(); i++){
+        mPoint = a.mirrorCenters[i];
+        ofDrawCircle(mPoint.x, mPoint.y, 10);
+    }
+    
+    mPlayer.draw(200, 200, 300, 400);
 }
 
 //--------------------------------------------------------------
@@ -798,6 +1030,24 @@ void ofApp::drawTestR(){
 }
 
 //--------------------------------------------------------------
+void ofApp::switchRLine() {
+    //    int rChoice = ofRandom(0, a.rLines.size());
+    //    ofPolyline rLine = a.rLines[rChoice];
+    
+//    if (a.whichRLine == (a.rLines.size()-1)) {
+//        a.whichRLine = 0;
+//    }
+//    else {
+//        a.whichRLine = a.whichRLine + 1;
+//    }
+//    if (a.mirrorLines.size() > 19) {
+//        a.mirrorLines.pop_back();
+//    }
+//    ofPolyline rLine = a.rLines[a.whichRLine];
+//    a.mirrorLines.push_back(rLine);
+}
+
+//--------------------------------------------------------------
 void ofApp::drawTestT(){
     ofBackground(0, 0, 0);
     ofSetLineWidth(1);
@@ -805,13 +1055,14 @@ void ofApp::drawTestT(){
     float tR = time - tStart;
     
     float alpha = 0;
-    if (tR < 10) {
-        alpha = ofMap(tR, 0, 10, 0, 255);
+    if (tR < 5) {
+        alpha = ofMap(tR, 0, 5, 0, 255);
     }
-    else if (tR < 15) {
+    else if (tR < 10) {
         alpha = 255;
     }
     else {
+        switchRLine();
         tStart = time;
         cout << "++ transitioning to animation " << nextAnimation << endl;
         currentAnimation = nextAnimation;
@@ -819,9 +1070,188 @@ void ofApp::drawTestT(){
     
     ofSetColor(255, 255, 255, alpha);
     ofPolyline mLine;
-    for(int i = 0; i < mirrorLines.size(); i++){
-        mLine = mirrorLines[i];
+    for(int i = 0; i < a.mirrorLines.size(); i++){
+        mLine = a.mirrorLines[i];
         mLine.draw();
+    }
+}
+
+//--------------------------------------------------------------
+void ofApp::drawTestI(){
+    
+    float t5 = time - tStart;
+    
+    ofBackground(0, 0, 0);
+    ofSetColor(255);
+    ofSetLineWidth(1);
+    
+    /******************* drawing lines with open frameworks */
+    ofSetColor(255, 255, 255);
+    ofPolyline mLine;
+    ofPoint transformedPoint;
+    vector<ofPoint> mPoints;
+    ofPoint xPoint;
+    //    int numLines = 1;
+    int numLines = 30;
+    int numDirections = 30;
+    for (int r = 0; r < numDirections; r++) {
+        float degs = 2*PI / r;
+        for(int i = 0; i < a.mirrorLines.size(); i++){
+            mLine = a.mirrorLines[i];
+            mLine.draw();
+            
+            /* sin spacing */
+            //            float spacing = ofMap(sin(time/2.0), -1, 1, 0, 20, 0);
+            
+            // *****************/
+            // in and out timing
+            float spacing;
+            float baseAlpha = 160;
+            float alpha = baseAlpha;
+            if (t5 < 60) {
+                iSpacing += 0.0000013;
+                spacing = iSpacing;
+                if (t5 > 30) {
+                    alpha = ofMap(t5, 30, 60, baseAlpha, 0);
+                }
+            }
+            else if (t5 < 80) {
+                alpha = 0;
+            }
+            else {
+                iSpacing = 0.01;
+                tStart = time;
+                currentAnimation = 'i';
+                cout << "++ transitioning to animation i" << endl;
+            }
+            cout << "spacing: " << spacing << endl;
+            
+//            ofSetColor(255, 255, 255, alpha);
+            ofSetColor(0, 0, 255, alpha);
+            
+            mPoints = mLine.getVertices();
+            for(int j = 0; j < numLines; j++){
+                ofPolyline transformedLine;
+                float xDelta = j*numLines*spacing * cos(degs);
+                float yDelta = j*numLines*spacing * sin(degs);
+                for(int k = 0; k < mPoints.size(); k++) {
+                    xPoint = mPoints[k];
+                    transformedPoint = ofPoint(xPoint.x + xDelta, xPoint.y - yDelta);
+                    transformedLine.addVertex(transformedPoint);
+                }
+                transformedLine.draw();
+            }
+        }
+    }
+    
+    ofSetColor(0, 0, 255, 255);
+    ofPolyline dLine;
+    for (int i = 0; i < a.mirrorLines.size(); i++) {
+        dLine = a.mirrorLines[i];
+        dLine.draw();
+    }
+}
+
+//--------------------------------------------------------------
+void ofApp::drawTestH(){
+    
+    float t5 = time - tStart;
+    
+    ofBackground(255, 255, 255);
+    ofBackground(0,0,0);
+    ofSetLineWidth(1);
+    
+    /******************* drawing lines with open frameworks */
+//    ofSetColor(0, 0, 0);
+       ofSetColor(255, 255, 255);
+    ofPolyline dLine;
+    for (int i = 0; i < a.mirrorLines.size(); i++) {
+        dLine = a.mirrorLines[i];
+        dLine.draw();
+    }
+    
+    int numLines = 80;
+    for(int k = 0; k < numLines; k++) {
+        float spacing = ofMap(sin(time/3.0), -1, 1, 0, 0.35, 0);
+        float scale = 1 + k * spacing;
+        for(int i = 0; i < a.mirrorLines.size(); i++) {
+            ofPolyline cMirror = a.mirrorLines[i];
+            vector<ofPoint> mPoints = cMirror.getVertices();
+            ofPoint mirrorCenter = a.mirrorCenters[i];
+            //            ofPoint startPoint = mPoints[0];
+            ofVec2f radius = mirrorCenter - a.centerPoint;
+            ofVec2f eRadius = radius * scale;
+            ofVec2f eDelta = eRadius - radius;
+            ofPolyline nLine;
+            for(int j = 0; j < mPoints.size(); j++) {
+                ofPoint mPoint = mPoints[j];
+                ofPoint nPoint = mPoint + eDelta;
+                nLine.addVertex(nPoint);
+            }
+            float alpha = ofMap(eDelta.length(), 0, 400, 255, 0);
+            ofSetColor(255, 255, 255, alpha);
+            nLine.draw();
+        }
+    }
+}
+
+
+//--------------------------------------------------------------
+void ofApp::drawTestB(){
+    
+    int numDirections = 5;
+    if (bSuns.size() != a.mirrorLines.size()) {
+        for (int i = 0; i < a.mirrorLines.size(); i++) {
+            ofPoint mirrorCenter = a.mirrorCenters[i];
+            bSun b;
+            b.init(mirrorCenter, numDirections);
+            bSuns.push_back(b);
+        }
+    }
+    
+    float t5 = time - tStart;
+    
+    ofBackground(255, 255, 255);
+    ofBackground(0,0,0);
+    ofSetLineWidth(1);
+    
+    /******************* drawing lines with open frameworks */
+    //    ofSetColor(0, 0, 0);
+    ofSetColor(255, 255, 255);
+    ofPolyline dLine;
+    for (int i = 0; i < a.mirrorLines.size(); i++) {
+        dLine = a.mirrorLines[i];
+        dLine.draw();
+    }
+    
+    int numLines = 80;
+    bSun b;
+    for(int j = 0; j < numDirections; j++) {
+        for(int k = 0; k < numLines; k++) {
+            float spacing = ofMap(sin(time/3.0), -1, 1, 0, 0.35, 0);
+            float scale = 1 + k * spacing;
+            for(int i = 0; i < a.mirrorLines.size(); i++) {
+                b = bSuns[i];
+                ofVec2f dir = b.dirs[j];
+                ofPolyline cMirror = a.mirrorLines[i];
+                vector<ofPoint> mPoints = cMirror.getVertices();
+//                ofPoint mirrorCenter = a.mirrorCenters[i];
+                //            ofPoint startPoint = mPoints[0];
+                ofVec2f radius = dir - a.centerPoint;
+                ofVec2f eRadius = radius * scale;
+                ofVec2f eDelta = eRadius - radius;
+                ofPolyline nLine;
+                for(int j = 0; j < mPoints.size(); j++) {
+                    ofPoint mPoint = mPoints[j];
+                    ofPoint nPoint = mPoint + eDelta;
+                    nLine.addVertex(nPoint);
+                }
+//                float alpha = ofMap(eDelta.length(), 0, 130, 255, 0);
+                float alpha = ofMap(eDelta.length(), 0, 400, 255, 0);
+                ofSetColor(255, 255, 255, alpha);
+                nLine.draw();
+            }
+        }
     }
 }
 
@@ -836,11 +1266,14 @@ void ofApp::keyPressed(int key){
         cout << "/" << endl;
         ofPoint firstPoint = currentLine.getVertices()[0];
         currentLine.addVertex(firstPoint);
-        mirrorLines.push_back(currentLine);
+        a.mirrorLines.push_back(currentLine);
         ofPolyline newline;
         currentLine = newline;
     }
-    else {
+    else if (key == 'v') {
+        switchRLine();
+    }
+    else if (key == '5' || key == '8' || key == 'n' || key == 'b') {
         tStart = time;
         currentAnimation = key;
         animationChanged = true;
@@ -867,7 +1300,7 @@ void ofApp::mousePressed(int x, int y, int button){
     cout << ofGetMouseX() << "," << ofGetMouseY() << endl;
     currentLine.addVertex(ofPoint(x, y));
     ofSetColor(255);
-    mirrorPoints.push_back(ofPoint(x, y));
+    a.mirrorPoints.push_back(ofPoint(x, y));
 }
 
 //--------------------------------------------------------------

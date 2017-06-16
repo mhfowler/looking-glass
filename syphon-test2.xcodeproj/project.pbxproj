@@ -30,6 +30,10 @@
 		E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */; };
 		ED8F48F01EEF36DE00465DF0 /* mUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED8F48EF1EEF36DE00465DF0 /* mUtils.cpp */; };
 		ED9502B31EF14A3800783A84 /* sun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED9502B11EF14A3800783A84 /* sun.cpp */; };
+		ED9502B91EF1561400783A84 /* appData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED9502B71EF1561400783A84 /* appData.cpp */; };
+		ED9502BC1EF1631B00783A84 /* zSun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED9502BA1EF1631B00783A84 /* zSun.cpp */; };
+		ED9502BF1EF1996A00783A84 /* xSun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED9502BD1EF1996A00783A84 /* xSun.cpp */; };
+		ED9502C51EF301CF00783A84 /* bSun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED9502C31EF301CF00783A84 /* bSun.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -115,6 +119,14 @@
 		ED8F48EF1EEF36DE00465DF0 /* mUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mUtils.cpp; sourceTree = "<group>"; };
 		ED9502B11EF14A3800783A84 /* sun.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sun.cpp; sourceTree = "<group>"; };
 		ED9502B21EF14A3800783A84 /* sun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sun.h; sourceTree = "<group>"; };
+		ED9502B71EF1561400783A84 /* appData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = appData.cpp; sourceTree = "<group>"; };
+		ED9502B81EF1561400783A84 /* appData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = appData.h; sourceTree = "<group>"; };
+		ED9502BA1EF1631B00783A84 /* zSun.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = zSun.cpp; sourceTree = "<group>"; };
+		ED9502BB1EF1631B00783A84 /* zSun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zSun.h; sourceTree = "<group>"; };
+		ED9502BD1EF1996A00783A84 /* xSun.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = xSun.cpp; sourceTree = "<group>"; };
+		ED9502BE1EF1996A00783A84 /* xSun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xSun.h; sourceTree = "<group>"; };
+		ED9502C31EF301CF00783A84 /* bSun.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = bSun.cpp; sourceTree = "<group>"; };
+		ED9502C41EF301CF00783A84 /* bSun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bSun.h; sourceTree = "<group>"; };
 		F4F5B6B8BA2BD52C646ED908 /* OscException.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = OscException.h; path = ../../../addons/ofxOsc/libs/oscpack/src/osc/OscException.h; sourceTree = SOURCE_ROOT; };
 		F7FBC56859535E597B24BB91 /* NetworkingUtils.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = NetworkingUtils.h; path = ../../../addons/ofxOsc/libs/oscpack/src/ip/NetworkingUtils.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -316,6 +328,14 @@
 				ED8F48EF1EEF36DE00465DF0 /* mUtils.cpp */,
 				ED9502B11EF14A3800783A84 /* sun.cpp */,
 				ED9502B21EF14A3800783A84 /* sun.h */,
+				ED9502B71EF1561400783A84 /* appData.cpp */,
+				ED9502B81EF1561400783A84 /* appData.h */,
+				ED9502BA1EF1631B00783A84 /* zSun.cpp */,
+				ED9502BB1EF1631B00783A84 /* zSun.h */,
+				ED9502BD1EF1996A00783A84 /* xSun.cpp */,
+				ED9502BE1EF1996A00783A84 /* xSun.h */,
+				ED9502C31EF301CF00783A84 /* bSun.cpp */,
+				ED9502C41EF301CF00783A84 /* bSun.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -448,6 +468,7 @@
 				ED9502B31EF14A3800783A84 /* sun.cpp in Sources */,
 				640279EE111671BD026CB013 /* ofxOscReceiver.cpp in Sources */,
 				8F5205AEF8861EF234F0651A /* ofxOscSender.cpp in Sources */,
+				ED9502BC1EF1631B00783A84 /* zSun.cpp in Sources */,
 				ADE367465D2A8EBAD4C7A8D9 /* IpEndpointName.cpp in Sources */,
 				67FE4C7B15C2F0478C8126C2 /* NetworkingUtils.cpp in Sources */,
 				510CAFE035E576A4E1502D52 /* UdpSocket.cpp in Sources */,
@@ -455,8 +476,11 @@
 				C4782ECC372420ACE0615B74 /* OscPrintReceivedElements.cpp in Sources */,
 				0546D1A38E13BD319CC9755B /* OscReceivedElements.cpp in Sources */,
 				879A251454401BC0B6E4F238 /* OscTypes.cpp in Sources */,
+				ED9502C51EF301CF00783A84 /* bSun.cpp in Sources */,
 				1F558B76FB3412843DDAA031 /* ofxSyphonClient.mm in Sources */,
 				8D60C222CBD3F869382832E9 /* ofxSyphonServer.mm in Sources */,
+				ED9502B91EF1561400783A84 /* appData.cpp in Sources */,
+				ED9502BF1EF1996A00783A84 /* xSun.cpp in Sources */,
 				11DF9AB1B4EAA63E3B190CA0 /* ofxSyphonServerDirectory.mm in Sources */,
 				C9109422648B170B07A778CF /* SyphonNameboundClient.m in Sources */,
 			);

@@ -6,7 +6,8 @@
 #include "ofxOsc.h"
 
 #include "mUtils.h"
-#include "sun.h"
+#include "xSun.h"
+#include "bSun.h"
 
 #define HOST "localhost"
 #define PORT 8000
@@ -38,7 +39,7 @@ public:
     
     
     // different drawings
-    void drawTestNames();
+    void drawTestNames();   // vaporwave
     void drawTest1();
     void drawTestQ();
     void drawTest2();
@@ -55,6 +56,17 @@ public:
     void drawTestR();
     void drawTestT();
     void drawTestY();
+    void drawTestZ();
+    void drawTestX();
+    void drawTestP();
+    void drawTestI(); // slow growth, single images
+    void drawTestH(); // gentle growth, more uniform
+    void drawTestB(); // gentle uniform growth in and out
+    
+    // drawing Y
+    vector<sun> suns;
+    vector<zSun> zSuns;
+    vector<xSun> xSuns;
     
     // time constants
     float tStart = 0;
@@ -63,6 +75,7 @@ public:
     // helpers
     void loadLines(string inputPath, vector<ofPolyline>* lineVector);
     void loadPoints(string inputPath, vector<ofPoint>* pointVector);
+    void switchRLine();
     
     // buffers for images
     ofImage img1;
@@ -82,8 +95,14 @@ public:
     float xFactor;
     float yFactor;
     
+    // loop
+    float iSpacing = 0.01;
+    
+    // drawTestB
+    vector<bSun> bSuns;
+    
     // change animations
-    char currentAnimation = 'y';
+    char currentAnimation = '5';
     char nextAnimation = '5';
     bool animationChanged = false;
     
@@ -91,11 +110,10 @@ public:
     ofPoint cursor;
     ofPolyline currentLine;
     
-    // for storing and loading lines
-    ofPoint centerPoint = ofPoint(674,459);
-    vector<ofPolyline> mirrorLines;
-    vector<ofPoint> mirrorPoints;
-    vector<ofPolyline> extraLines;
-    vector<ofPoint> extraPoints;
-    vector<ofPoint> mirrorCenters;
+    // for storing and loading lines/data
+    appData a;
+    
+    // video
+    ofVideoPlayer mPlayer;
+    
 };

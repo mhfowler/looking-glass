@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "DDF778E9D377550A3539B1EC0285C0FAA6A275B6",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "F4CCB893AFADB97238A965FD2F28717F1CAAE613" : 9223372036854775807,
+    "DDF778E9D377550A3539B1EC0285C0FAA6A275B6" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "43907820-53F2-4AA7-9046-97B9C9301FD2",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "F4CCB893AFADB97238A965FD2F28717F1CAAE613" : "..\/..\/addons\/ofxSyphon",
+    "DDF778E9D377550A3539B1EC0285C0FAA6A275B6" : "syphon-test2\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "syphon-test2",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "syphon-test2.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:mhfowler\/looking-glass.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "DDF778E9D377550A3539B1EC0285C0FAA6A275B6"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/astellato\/ofxSyphon.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "F4CCB893AFADB97238A965FD2F28717F1CAAE613"
+    }
+  ]
+}
