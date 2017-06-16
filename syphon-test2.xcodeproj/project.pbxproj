@@ -34,6 +34,10 @@
 		ED9502BC1EF1631B00783A84 /* zSun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED9502BA1EF1631B00783A84 /* zSun.cpp */; };
 		ED9502BF1EF1996A00783A84 /* xSun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED9502BD1EF1996A00783A84 /* xSun.cpp */; };
 		ED9502C51EF301CF00783A84 /* bSun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED9502C31EF301CF00783A84 /* bSun.cpp */; };
+		ED9502CA1EF43F4100783A84 /* dSun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED9502C81EF43F4100783A84 /* dSun.cpp */; };
+		ED9502CD1EF4475000783A84 /* simpleSun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED9502CB1EF4475000783A84 /* simpleSun.cpp */; };
+		ED9502D01EF45D5300783A84 /* colorSun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED9502CE1EF45D5300783A84 /* colorSun.cpp */; };
+		ED9502D31EF4795D00783A84 /* brokenSun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED9502D11EF4795D00783A84 /* brokenSun.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -127,6 +131,14 @@
 		ED9502BE1EF1996A00783A84 /* xSun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xSun.h; sourceTree = "<group>"; };
 		ED9502C31EF301CF00783A84 /* bSun.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = bSun.cpp; sourceTree = "<group>"; };
 		ED9502C41EF301CF00783A84 /* bSun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bSun.h; sourceTree = "<group>"; };
+		ED9502C81EF43F4100783A84 /* dSun.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dSun.cpp; sourceTree = "<group>"; };
+		ED9502C91EF43F4100783A84 /* dSun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dSun.h; sourceTree = "<group>"; };
+		ED9502CB1EF4475000783A84 /* simpleSun.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = simpleSun.cpp; sourceTree = "<group>"; };
+		ED9502CC1EF4475000783A84 /* simpleSun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = simpleSun.h; sourceTree = "<group>"; };
+		ED9502CE1EF45D5300783A84 /* colorSun.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = colorSun.cpp; sourceTree = "<group>"; };
+		ED9502CF1EF45D5300783A84 /* colorSun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = colorSun.h; sourceTree = "<group>"; };
+		ED9502D11EF4795D00783A84 /* brokenSun.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = brokenSun.cpp; sourceTree = "<group>"; };
+		ED9502D21EF4795D00783A84 /* brokenSun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = brokenSun.h; sourceTree = "<group>"; };
 		F4F5B6B8BA2BD52C646ED908 /* OscException.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = OscException.h; path = ../../../addons/ofxOsc/libs/oscpack/src/osc/OscException.h; sourceTree = SOURCE_ROOT; };
 		F7FBC56859535E597B24BB91 /* NetworkingUtils.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = NetworkingUtils.h; path = ../../../addons/ofxOsc/libs/oscpack/src/ip/NetworkingUtils.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -336,6 +348,14 @@
 				ED9502BE1EF1996A00783A84 /* xSun.h */,
 				ED9502C31EF301CF00783A84 /* bSun.cpp */,
 				ED9502C41EF301CF00783A84 /* bSun.h */,
+				ED9502C81EF43F4100783A84 /* dSun.cpp */,
+				ED9502C91EF43F4100783A84 /* dSun.h */,
+				ED9502CB1EF4475000783A84 /* simpleSun.cpp */,
+				ED9502CC1EF4475000783A84 /* simpleSun.h */,
+				ED9502CE1EF45D5300783A84 /* colorSun.cpp */,
+				ED9502CF1EF45D5300783A84 /* colorSun.h */,
+				ED9502D11EF4795D00783A84 /* brokenSun.cpp */,
+				ED9502D21EF4795D00783A84 /* brokenSun.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -460,11 +480,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				ED8F48F01EEF36DE00465DF0 /* mUtils.cpp in Sources */,
+				ED9502D31EF4795D00783A84 /* brokenSun.cpp in Sources */,
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
+				ED9502CA1EF43F4100783A84 /* dSun.cpp in Sources */,
 				72A929D3561B8232A182ABFC /* ofxOscBundle.cpp in Sources */,
 				5864AD82E20F15536D054EA3 /* ofxOscMessage.cpp in Sources */,
+				ED9502CD1EF4475000783A84 /* simpleSun.cpp in Sources */,
 				4ADB88E2FB52E76A471065DE /* ofxOscParameterSync.cpp in Sources */,
+				ED9502D01EF45D5300783A84 /* colorSun.cpp in Sources */,
 				ED9502B31EF14A3800783A84 /* sun.cpp in Sources */,
 				640279EE111671BD026CB013 /* ofxOscReceiver.cpp in Sources */,
 				8F5205AEF8861EF234F0651A /* ofxOscSender.cpp in Sources */,

@@ -1,7 +1,7 @@
 #include "ofMain.h"
-#include "brokenSun.h"
+#include "simpleSun.h"
 
-class  xSun {
+class  colorSun {
 public:
     void draw();
     
@@ -24,11 +24,13 @@ public:
     vector<ofPoint> xPoints;
     int numFrames = 0;
     
+    ofPolyline mLine;
+    ofColor  sCol;
+    ofPoint tLoc;
     ofPoint origin;
     ofVec2f path;
     ofVec2f scaledVec;
     ofPoint loc;
-    ofPolyline mLine;
 };
 
 

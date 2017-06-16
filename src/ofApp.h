@@ -7,7 +7,6 @@
 
 #include "mUtils.h"
 #include "xSun.h"
-#include "bSun.h"
 
 #define HOST "localhost"
 #define PORT 8000
@@ -58,6 +57,7 @@ public:
     void drawTestY();
     void drawTestZ();
     void drawTestX();
+    void drawTestM();
     void drawTestP();
     void drawTestI(); // slow growth, single images
     void drawTestH(); // gentle growth, more uniform
@@ -67,6 +67,7 @@ public:
     vector<sun> suns;
     vector<zSun> zSuns;
     vector<xSun> xSuns;
+    vector<colorSun> colorSuns;
     
     // time constants
     float tStart = 0;
@@ -94,15 +95,22 @@ public:
     float time;
     float xFactor;
     float yFactor;
+    int frameNum = 0;
     
     // loop
     float iSpacing = 0.01;
+    int toReplace = 0;
+    int maxSuns = 5000;
     
     // drawTestB
     vector<bSun> bSuns;
+    ofColor cCol;
+    int prevMirror = 100;
+    int wMirror = 0;
+    vector<int> mirrorMap = {16, 4, 17, 5, 1, 14, 8, 12, 13, 2, 10, 18, 11, 6, 9, 7, 0, 3, 15, 19};
     
     // change animations
-    char currentAnimation = '5';
+    char currentAnimation = 'x';
     char nextAnimation = '5';
     bool animationChanged = false;
     

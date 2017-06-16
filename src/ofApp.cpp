@@ -18,22 +18,30 @@ void ofApp::setup(){
     
     // load images
 //    img1.load("/Users/maxfowler/Desktop/unbroken/img/directCircle.png");
-    img1.load("/Users/maxfowler/Desktop/unbroken/img/courtyard.jpg");
-    img2.load("/Users/maxfowler/Desktop/unbroken/img/trees.jpg");
-    img3.load("/Users/maxfowler/Desktop/unbroken/img/mapping.jpg");
+    img1.load("/Users/maxfowler/computer/projects/looking-glass/courtyard.jpg");
+    img2.load("/Users/maxfowler/computer/projects/looking-glass/trees.jpg");
+    img3.load("/Users/maxfowler/computer/projects/looking-glass/img/mapping.jpg");
     
-    mPlayer.load("/Users/maxfowler/Desktop/unbroken/img/sky.mov");
+    mPlayer.load("/Users/maxfowler/computer/projects/looking-glass/img/sky.mov");
 //    mPlayer.play();
     
 //    loadLines("/Users/maxfowler/Desktop/unbroken/lines/mLines-jun12.txt", &a.mirrorLines);
 //    loadLines("/Users/maxfowler/Desktop/unbroken/lines/mLines-jun14-evening.txt", &a.mirrorLines);
-    loadLines("/Users/maxfowler/Desktop/unbroken/lines/mLines-jun15-night.txt", &a.mirrorLines);
-     loadLines("/Users/maxfowler/Desktop/unbroken/lines/rLines.txt", &a.rLines);
+    loadLines("/Users/maxfowler/computer/projects/looking-glass/lines/mLines-jun15-night.txt", &a.mirrorLines);
+     loadLines("/Users/maxfowler/computer/projects/looking-glass/lines/rLines.txt", &a.rLines);
 //    loadLines("/Users/maxfowler/Desktop/unbroken/lines/straightLines-jun14.txt", &a.mirrorLines);
-    loadPoints("/Users/maxfowler/Desktop/unbroken/lines/centers-jun15.txt", &a.mirrorCenters);
+    loadPoints("/Users/maxfowler/computer/projects/looking-glass/lines/centers-jun15.txt", &a.mirrorCenters);
 //    loadPoints("/Users/maxfowler/Desktop/unbroken/lines/straightCenters-jun14.txt", &a.mirrorCenters);
     
-    ofHideCursor();
+//    ofHideCursor();
+    
+    ofSetFrameRate(60);
+    
+    for(int i = 0; i < maxSuns; i++){
+        colorSun s;
+        colorSuns.push_back(s);
+    }
+
 }
 
 //--------------------------------------------------------------
@@ -142,12 +150,16 @@ void ofApp::loadPoints(string inputPath, vector<ofPoint>* pointVector) {
 //--------------------------------------------------------------
 void ofApp::update(){
     time = ofGetElapsedTimef();
+    frameNum = ofGetFrameNum();
     
     xFactor = ofGetMouseX();
     yFactor = ofGetMouseY();
     
     w = ofGetWidth();
     h = ofGetHeight();
+    a.w = w;
+    a.h = h;
+    a.time = time;
     
     if (animationChanged == true) {
         animationChanged = false;
@@ -156,10 +168,6 @@ void ofApp::update(){
         m.setAddress(oscAddress);
         m.addBoolArg(true);
         sender.sendMessage(m, false);
-    }
-    
-    if (currentAnimation == 'p') {
-        mPlayer.update();
     }
 }
 
@@ -308,7 +316,8 @@ void ofApp::drawTest5(){
     
     ofBackground(0, 0, 0);
     ofSetColor(255);
-    ofSetLineWidth(1);
+//    ofSetLineWidth(1);
+    ofSetLineWidth(2);
     
     /******************* drawing lines with open frameworks */
     ofSetColor(255, 255, 255);
@@ -584,7 +593,7 @@ void ofApp::drawTest8(){
     if (addSuns) {
         for (int i = 0; i < a.mirrorLines.size(); i++) {
             xSun s;
-            s.init(&a, 0, 0, i);
+            s.init(&a, 0, 0, i, ofColor(255, 255, 255));
             xSuns.push_back(s);
         }
         
@@ -645,19 +654,19 @@ void ofApp::drawTestY(){
     
     // code for suns
     float k = ofRandom(0, 100);
-    if (k > 20 && suns.size() < 2000) {
-        sun s;
-        float x = ofRandom(0, w);
-        float y = ofRandom(0, h);
-        s.init(&a, x, y);
-        suns.push_back(s);
-    }
-    
-    sun s;
-    for(int j = 0; j < suns.size(); j++) {
-        s = suns[j];
-        s.draw();
-    }
+//    if (k > 20 && suns.size() < 2000) {
+//        sun s;
+//        float x = ofRandom(0, w);
+//        float y = ofRandom(0, h);
+//        s.init(&a, x, y);
+//        suns.push_back(s);
+//    }
+//    
+//    sun s;
+//    for(int j = 0; j < suns.size(); j++) {
+//        s = suns[j];
+//        s.draw();
+//    }
     
     ofSetColor(0, 0, 255);
 //    ofDrawCircle(a.centerPoint.x, a.centerPoint.y, 10);
@@ -709,19 +718,135 @@ void ofApp::drawTestZ(){
 
 //--------------------------------------------------------------
 void ofApp::drawTestX(){
+    
+    cout << "fps: " << ofGetFrameRate() << endl;
+    
     ofBackground(0, 0, 0);
     ofSetColor(255);
     ofSetLineWidth(1);
     
+//    float x1 = w/3;
+//    float x2 = 2*w/3;
+//    float y1 = h/3;
+//    float y2 = 2*h/3;
+//    
+//    ofDrawLine(x1, y1, x1, y2);
+//    ofDrawLine(x1, y2, x2, y2);
+//    ofDrawLine(x2, y2, x2, y1);
+//    ofDrawLine(x2, y1, x1, y1);
+    
     // code for suns
     float k = ofRandom(0, 100);
-    for (int i = 0; i < a.mirrorLines.size(); i++) {
-        xSun s;
-        s.init(&a, 0, 0, i);
-        xSuns.push_back(s);
+    float modFrame = frameNum % 2;
+//    if (k > 99) {
+    float r = 1000;
+    float cScale = 0.2;
+    
+    if (frameNum % 100 == 0) {
+        cCol = ofColor(ofRandom(0, 255), ofRandom(0, 255), ofRandom(0, 255));
+//        int i = ofRandom(0, a.mirrorLines.size());
+        if (wMirror == a.mirrorLines.size()) {
+            wMirror = 0;
+        }
+        else {
+            wMirror = wMirror + 1;
+        }
     }
     
-    while (xSuns.size() > 5000) {
+//    int i = ofMap(sin(time/4.0), -1, 1, 0, a.mirrorLines.size());
+    int i = wMirror;
+    for (int i = 0; i < a.mirrorLines.size(); i++) {
+        if (modFrame == 0) {
+            colorSun s;
+            float x = a.centerPoint.x + ofMap(cos(time*cScale), -1, 1, -r, r);
+            float y = a.centerPoint.y + ofMap(sin(time*cScale), -1, 1, -r, r);
+            //        float x = a.centerPoint.x + ofMap(cos(time*cScale), -1, 1, -r, r);
+            //        float y = -400;
+            s.init(&a, x, y, i, cCol);
+            colorSuns[toReplace] = s;
+            if (toReplace == maxSuns) {
+                toReplace = 0;
+            }
+            else {
+                toReplace = toReplace + 1;
+            }
+            
+            float x2 = a.centerPoint.x - ofMap(cos(time*cScale), -1, 1, -r, r);
+            float y2 = a.centerPoint.y - ofMap(sin(time*cScale), -1, 1, -r, r);
+            //        y = h + 400;
+            s.init(&a, x2, y2, i, cCol);
+            colorSuns[toReplace] = s;
+            if (toReplace == maxSuns) {
+                toReplace = 0;
+            }
+            else {
+                toReplace = toReplace + 1;
+            }
+        }
+    }
+    
+    colorSun s;
+    for(int j = 0; j < colorSuns.size(); j++) {
+        s = colorSuns[j];
+        s.draw();
+    }
+    
+//    ofSetColor(0, 0, 255);
+//        ofDrawCircle(a.centerPoint.x, a.centerPoint.y, 10);
+    
+    ofSetColor(255, 255, 255, 255);
+    ofPolyline dLine;
+    for (int i = 0; i < a.mirrorLines.size(); i++) {
+        dLine = a.mirrorLines[i];
+        dLine.draw();
+    }
+    
+}
+
+//--------------------------------------------------------------
+void ofApp::drawTestM(){
+    ofBackground(0, 0, 0);
+    ofSetColor(255);
+    ofSetLineWidth(1);
+    
+    //    float x1 = w/3;
+    //    float x2 = 2*w/3;
+    //    float y1 = h/3;
+    //    float y2 = 2*h/3;
+    //
+    //    ofDrawLine(x1, y1, x1, y2);
+    //    ofDrawLine(x1, y2, x2, y2);
+    //    ofDrawLine(x2, y2, x2, y1);
+    //    ofDrawLine(x2, y1, x1, y1);
+    
+    // code for suns
+    float k = ofRandom(0, 100);
+    float modFrame = ofGetFrameNum() % 2;
+    //    if (k > 99) {
+    float r = 1000;
+    float cScale = 0.4;
+    
+    if (ofGetFrameNum() % 20 == 0) {
+        cCol = ofColor(ofRandom(0, 255), ofRandom(0, 255), ofRandom(0, 255));
+        int i = ofRandom(0, a.mirrorLines.size());
+        if (modFrame == 0) {
+            xSun s;
+            float x = a.centerPoint.x + ofMap(cos(time*cScale), -1, 1, -r, r);
+            float y = a.centerPoint.y + ofMap(sin(time*cScale), -1, 1, -r, r);
+            //        float x = a.centerPoint.x + ofMap(cos(time*cScale), -1, 1, -r, r);
+            //        float y = -400;
+            s.init(&a, x, y, i, cCol);
+            xSuns.push_back(s);
+            
+            float x2 = a.centerPoint.x - ofMap(cos(time*cScale), -1, 1, -r, r);
+            float y2 = a.centerPoint.y - ofMap(sin(time*cScale), -1, 1, -r, r);
+            //        y = h + 400;
+            s.init(&a, x2, y2, i, cCol);
+            xSuns.push_back(s);
+        }
+    }
+    
+    while (xSuns.size() > 1000) {
         xSuns.erase(xSuns.begin());
     }
     
@@ -731,10 +856,10 @@ void ofApp::drawTestX(){
         s.draw();
     }
     
-    ofSetColor(0, 0, 255);
-    //    ofDrawCircle(a.centerPoint.x, a.centerPoint.y, 10);
+    //    ofSetColor(0, 0, 255);
+    //        ofDrawCircle(a.centerPoint.x, a.centerPoint.y, 10);
     
-    ofSetColor(111, 28, 178, 255);
+    ofSetColor(255, 255, 255, 255);
     ofPolyline dLine;
     for (int i = 0; i < a.mirrorLines.size(); i++) {
         dLine = a.mirrorLines[i];

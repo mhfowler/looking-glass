@@ -1,7 +1,7 @@
 #include "ofMain.h"
-#include "brokenSun.h"
+#include "colorSun.h"
 
-class  xSun {
+class  brokenSun {
 public:
     void draw();
     

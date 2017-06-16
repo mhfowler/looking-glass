@@ -1,11 +1,11 @@
 #include "ofMain.h"
-#include "brokenSun.h"
+#include "bSun.h"
 
-class  xSun {
+class  simpleSun {
 public:
     void draw();
     
-    void init(appData* aData, float x, float y, int wMirror, ofColor xCol);
+    void init(appData* aData, float x, float y, int wMirror);
     
     appData* a;
     float startX = 100;
@@ -20,15 +20,6 @@ public:
     ofVec2f tri3;
     
     ofColor col;
-    
-    vector<ofPoint> xPoints;
-    int numFrames = 0;
-    
-    ofPoint origin;
-    ofVec2f path;
-    ofVec2f scaledVec;
-    ofPoint loc;
-    ofPolyline mLine;
 };
 
 

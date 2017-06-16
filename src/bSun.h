@@ -1,4 +1,5 @@
 #include "ofMain.h"
+#include "dSun.h"
 
 class  bSun {
 public:
